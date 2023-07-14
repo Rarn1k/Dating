@@ -1,10 +1,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return "user_{0}/{1}".format(instance.public_id, filename)
+    return "user_{0}/{1}".format(instance.email, filename)
 
 
 class UserManager(BaseUserManager):
@@ -31,7 +32,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     MALE = 'm'
     FEMALE = 'f'
     GENDERS_CHOICES = [
@@ -49,8 +50,9 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-
     # EMAIL_FIELD = 'email'
+
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.email}"
