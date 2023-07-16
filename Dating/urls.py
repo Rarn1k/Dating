@@ -20,23 +20,29 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 
-from auth.viewsets.login import LoginViewSet
-from auth.viewsets.refresh import RefreshViewSet
-from auth.viewsets.reigster import RegisterViewSet
+from authentication.viewsets.login import LoginViewSet
+from authentication.viewsets.refresh import RefreshViewSet
+from authentication.viewsets.reigster import RegisterViewSet
 from user.views import UserViewSet
 
 router = SimpleRouter()
+clients_router = SimpleRouter()
 
 # User
-router.register(r'list', UserViewSet, basename='clients')
+router.register(r'clients', UserViewSet, basename='clients')
 
 # Auth
-router.register(r'clients/create', RegisterViewSet, basename='clients-register')
-router.register(r'clients/login', LoginViewSet, basename='clients-login')
-router.register(r'clients/refresh', RefreshViewSet, basename='clients-refresh')
+# router.register(r'clients/create', RegisterViewSet, basename='clients-register')
+# router.register(r'clients/login', LoginViewSet, basename='clients-login')
+# router.register(r'clients/refresh', RefreshViewSet, basename='clients-refresh')
+
+clients_router.register(r'create', RegisterViewSet, basename='clients-register')
+clients_router.register(r'login', LoginViewSet, basename='clients-login')
+clients_router.register(r'refresh', RefreshViewSet, basename='clients-refresh')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/clients/', include(clients_router.urls)),
     path('api/', include(router.urls)),
 ]
 

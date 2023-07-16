@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from auth.serializers.register import RegisterSerializer
+from authentication.serializers.register import RegisterSerializer
 
 
 class RegisterViewSet(ViewSet):

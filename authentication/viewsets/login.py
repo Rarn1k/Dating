@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from auth.serializers.login import LoginSerializer
+from authentication.serializers.login import LoginSerializer
 
 
 class LoginViewSet(ViewSet):
