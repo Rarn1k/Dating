@@ -1,6 +1,7 @@
 import datetime
 
 from django.core.mail import EmailMultiAlternatives
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -28,6 +29,7 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ('patch', 'get', 'delete', 'put', 'post')
     permission_classes = (MyUserPermission,)
     serializer_class = UserSerializer
+    filterset_fields = ('gender', 'first_name', 'last_name')
 
     def get_queryset(self):
         if self.request.user.is_superuser:
