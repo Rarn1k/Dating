@@ -7,6 +7,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from Dating import settings
@@ -56,11 +57,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.ImageField(upload_to=user_directory_path, default='default.jpg')
     liked = models.ManyToManyField("self", related_name='likes', symmetrical=False, blank=True)
 
+    longitude = models.SmallIntegerField(validators=[MinValueValidator(-90), MaxValueValidator(90)])
+    latitude = models.SmallIntegerField(validators=[MinValueValidator(-90), MaxValueValidator(90)])
+
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    # EMAIL_FIELD = 'email'
 
     objects = UserManager()
 
@@ -71,7 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         output = io.BytesIO()
         base_avatar.save(output, format='JPEG')
         output.seek(0)
-        self.avatar = InMemoryUploadedFile(output, 'ImageField', 'avatar.jpg', 'image/jpeg',
+        self.avatar = InMemoryUploadedFile(output, 'ImageField', f'avatar_{self.last_name}.jpg', 'image/jpeg',
                                            sys.getsizeof(output), None)
         super().save(*args, **kwargs)
         if self._password is not None:

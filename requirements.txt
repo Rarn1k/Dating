@@ -1,8 +1,12 @@
 asgiref==3.7.2
 Django==4.2.3
+django-debug-toolbar==4.1.0
+django-debug-toolbar-force==0.2
 django-filter==23.2
+django-nine==0.2.7
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
+packaging==23.1
 Pillow==10.0.0
 PyJWT==2.7.0
 python-dotenv==1.0.0

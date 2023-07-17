@@ -4,7 +4,8 @@ from user.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     liked = serializers.SerializerMethodField()
-    likes_count = serializers.SerializerMethodField()
+    likes_count = serializers.IntegerField(read_only=True)
+    distance = serializers.DecimalField(max_digits=8, decimal_places=2, read_only=True)
 
     def get_liked(self, instance):
         request = self.context.get('request', None)
@@ -12,9 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
             return False
         return request.user.has_liked_user(instance)
 
-    def get_likes_count(self, instance):
-        return instance.likes.count()
-
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'gender', 'email', 'avatar', 'liked', 'likes_count']
+        fields = ['id', 'first_name', 'last_name', 'gender', 'email', 'avatar', 'liked', 'likes_count', 'distance']

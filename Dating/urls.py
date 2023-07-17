@@ -32,9 +32,6 @@ clients_router = SimpleRouter()
 router.register(r'clients', UserViewSet, basename='clients')
 
 # Auth
-# router.register(r'clients/create', RegisterViewSet, basename='clients-register')
-# router.register(r'clients/login', LoginViewSet, basename='clients-login')
-# router.register(r'clients/refresh', RefreshViewSet, basename='clients-refresh')
 
 clients_router.register(r'create', RegisterViewSet, basename='clients-register')
 clients_router.register(r'login', LoginViewSet, basename='clients-login')
@@ -44,6 +41,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/clients/', include(clients_router.urls)),
     path('api/', include(router.urls)),
+
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:
